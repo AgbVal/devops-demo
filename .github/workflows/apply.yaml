@@ -47,7 +47,6 @@ jobs:
         env:
           ARM_USE_AZUREAD: "true"
         run: |
-          run: |
           terraform plan \
             -input=false \
             -var="subscription_id=${{ vars.AZURE_SUBSCRIPTION_ID }}" \
