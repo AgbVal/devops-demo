@@ -50,6 +50,8 @@ resource "azurerm_container_app" "app" {
   resource_group_name          = data.azurerm_resource_group.rg.name
   container_app_environment_id = data.azurerm_container_app_environment.env.id
 
+  workload_profile_name = "Consumption"
+
   revision_mode = "Single"
 
   identity {
