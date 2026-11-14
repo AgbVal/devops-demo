@@ -6,12 +6,12 @@ terraform {
     }
   }
   backend "azurerm" {
-  resource_group_name  = "tfstate-rg"
-  storage_account_name = "tfstate122112327"
-  container_name       = "tfstate"
-  key                  = "terraform.tfstate"
-  use_azuread_auth     = true
-}
+    resource_group_name  = "tfstate-rg"
+    storage_account_name = "tfstate122112327"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+    use_azuread_auth     = true
+  }
 }
 
 # Configure the Microsoft Azure Provider
@@ -57,6 +57,8 @@ resource "azurerm_container_app" "app" {
   resource_group_name          = data.azurerm_resource_group.rg.name
   container_app_environment_id = data.azurerm_container_app_environment.env.id
 
+  workload_profile_name = "Consumption"
+
   revision_mode = "Single"
 
   identity {
@@ -76,16 +78,16 @@ resource "azurerm_container_app" "app" {
     max_replicas = 1
 
     container {
-      name   = "task1devops"
-    #   image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
-      image = "task1devops.azurecr.io/demo-1:v1"
+      name = "task1devops"
+      #   image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+      image  = "task1devops.azurecr.io/demo-1:v1"
       cpu    = 0.25
       memory = "0.5Gi"
     }
   }
 
   ingress {
-    external_enabled           = true
+    external_enabled = true
     # target_port                = 80
     target_port                = 5000
     allow_insecure_connections = false
