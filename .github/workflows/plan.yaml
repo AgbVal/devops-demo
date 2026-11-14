@@ -4,6 +4,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: ./terra
+
 jobs:
   terraform-plan:
     environment: terraform-plan
@@ -43,4 +47,7 @@ jobs:
         env:
           ARM_USE_AZUREAD: "true"
         run: |
-          terraform plan -out=tfplan
+          terraform plan \
+            -input=false \
+            -var="subscription_id=${{ vars.AZURE_SUBSCRIPTION_ID }}" \
+            -out=tfplan
