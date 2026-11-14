@@ -31,7 +31,7 @@ jobs:
           tenant-id: 6026a14d-b538-47cf-acf6-e2fbaea8816a
           subscription-id: ea408ce5-4b61-4ef4-bd94-25ebca3d88ce
 
-      - name: Terraform Init
+      - name: Terraform Initi
         shell: bash
         env:
           ARM_USE_AZUREAD: "true"
