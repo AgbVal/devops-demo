@@ -5,6 +5,13 @@ terraform {
       version = "=5.0.0"
     }
   }
+  backend "azurerm" {
+  resource_group_name  = "tfstate-rg"
+  storage_account_name = "tfstate122112327"
+  container_name       = "tfstate"
+  key                  = "terraform.tfstate"
+  use_azuread_auth     = true
+}
 }
 
 # Configure the Microsoft Azure Provider
