@@ -1,0 +1,46 @@
+name: Terraform Plan
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-plan:
+    environment: terraform-plan
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: latest
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: 2424bafd-38b8-49e5-b23c-bc720c09bc1b
+          tenant-id: 6026a14d-b538-47cf-acf6-e2fbaea8816a
+          subscription-id: ea408ce5-4b61-4ef4-bd94-25ebca3d88ce
+
+      - name: Terraform Init
+        shell: bash
+        env:
+          ARM_USE_AZUREAD: "true"
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=tfstate-rg" \
+            -backend-config="storage_account_name=tfstate122112327" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=terraform.tfstate"
+
+      - name: Terraform Plan
+        shell: bash
+        env:
+          ARM_USE_AZUREAD: "true"
+        run: |
+          terraform plan -out=tfplan
